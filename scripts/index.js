@@ -33,6 +33,6 @@ function deleteCard(card) {
  
 // @todo: Вывести карточки на страницу
 initialCards.forEach(function(cardData) {
-    const card = createCard(cardData);
+    const card = createCard(cardData, deleteCard);
     cardList.append(card);
 })
