@@ -1,5 +1,6 @@
-import {popup, openPopup, addImageContent} from './modal';
+import {openImagePopup} from './modal'
 
+const popupImage = document.querySelector('.popup_type_image');
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
 const cardItem = cardTemplate.querySelector('.card');
@@ -22,22 +23,25 @@ function createCard(cardData, deleteCard) {
     });
     
     cardImage.addEventListener('click', function() {
-        openPopup(popup.popupImage)
-        addImageContent(cardData)
-    })
+        openImagePopup(popupImage, cardData)
+    });
 
-    likeCard.addEventListener('click', function(evt) {
-        const evtTarget = evt.target;
-        evtTarget.classList.toggle('card__like-button_is-active');
-    })
-    
+    likeCard.addEventListener('click', function() {
+        toggleLike(likeCard)
+    });
+
     return card
+}
+
+//Функция лайка
+function toggleLike(element) {
+    element.classList.toggle('card__like-button_is-active');
 }
 
 // @todo: Функция удаления карточки
 function deleteCard(card) {
     card.remove();
-  } 
+} 
 
-  export {createCard, deleteCard}
+export {createCard, deleteCard, toggleLike, popupImage}
   
