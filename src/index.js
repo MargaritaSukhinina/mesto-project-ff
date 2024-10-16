@@ -1,7 +1,7 @@
 import './styles/index.css';
 import {initialCards} from './components/cards.js';
-import {createCard, deleteCard, toggleLike, popupImage} from './components/card.js';
-import {openPopup,closePopup, addAnimatedClassToPopups} from './components/modal.js';
+import {createCard, deleteCard} from './components/card.js';
+import {openPopup,closePopup} from './components/modal.js';
 
 // @todo: DOM узлы
 const cardList = document.querySelector('.places__list');
@@ -12,16 +12,19 @@ const popupAdd = document.querySelector('.popup_type_new-card');
 const buttonOpenProfileEdit = document.querySelector('.profile__edit-button');
 const buttonOpenProfileAdd = document.querySelector('.profile__add-button');
 
+const popupElement = document.querySelectorAll('.popup');
+const popupContentImage = document.querySelector('.popup__image');
+const popupContentCaption = document.querySelector('.popup__caption');
+const popupImage = document.querySelector('.popup_type_image');
+
 // @todo: Вывести карточки на страницу
 
 initialCards.forEach(function(cardData) {
-    const card = createCard(cardData, deleteCard);
+    const card = createCard(cardData, deleteCard, openImagePopup);
     cardList.append(card);
 })
 
 // Открытие модальных окон
-addAnimatedClassToPopups()
-
 const formElement = popupEdit.querySelector('.popup__form');
 const nameInput = formElement.querySelector('.popup__input_type_name');
 const jobInput = formElement.querySelector('.popup__input_type_description');
@@ -30,12 +33,13 @@ const job = document.querySelector('.profile__description').textContent;
 const formNewCard = popupAdd.querySelector('.popup__form');
 const textInput = formNewCard.querySelector('.popup__input_type_card-name');
 const linkInput = formNewCard.querySelector('.popup__input_type_url');
+const nameInputOutput = document.querySelector('.profile__title');
+const jobInputOutput = document.querySelector('.profile__description');
 
+//форма редоктирования информации о себе
 function submitEditProfileFormt(evt) {
         evt.preventDefault();
-        const nameInputOutput = document.querySelector('.profile__title');
-        const jobInputOutput = document.querySelector('.profile__description');
-
+        
         nameInputOutput.textContent = nameInput.value;
         jobInputOutput.textContent = jobInput.value;
 
@@ -47,16 +51,16 @@ buttonOpenProfileEdit.addEventListener('click', function() {
     openPopup(popupEdit)
     nameInput.value = name; 
     jobInput.value = job;
-    submitEditProfileFormt 
 })
 formElement.addEventListener('submit', submitEditProfileFormt);
 
+//форма добавления новой карточки
 function handleFormSubmitCard(event) {
     event.preventDefault();
 
    const renderCard = {name: textInput.value, link: linkInput.value};
 
-    const newCard = createCard(renderCard, deleteCard, toggleLike);
+    const newCard = createCard(renderCard, deleteCard, openImagePopup);
     cardList.prepend(newCard);
     
     formNewCard.reset()
@@ -65,9 +69,29 @@ function handleFormSubmitCard(event) {
 
 buttonOpenProfileAdd.addEventListener('click', function() {
     openPopup(popupAdd)
-    handleFormSubmitCard
 })
 formNewCard.addEventListener('submit', handleFormSubmitCard);
+
+//Открытие картинки
+function openImagePopup(cardData) {
+    openPopup(popupImage)
+    addImageContent(cardData)
+}
+
+//Добавление изображения для модального окна карточки
+function addImageContent(cardData) {
+    popupContentImage.src = cardData.link;
+    popupContentImage.alt = cardData.name;
+    popupContentCaption.textContent = cardData.name;
+}
+
+//добавление классов для плавного перехода
+function addAnimatedClassToPopups() {
+    popupElement.forEach(function(element) {
+    element.classList.add('popup_is-animated')
+})
+}
+addAnimatedClassToPopups()
 
 //Закрытие модальных окон
 const popupButtonCloseEdit = popupEdit.querySelector('.popup__close');

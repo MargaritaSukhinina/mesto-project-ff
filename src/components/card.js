@@ -1,13 +1,10 @@
-import {openImagePopup} from './modal'
-
-const popupImage = document.querySelector('.popup_type_image');
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
 const cardItem = cardTemplate.querySelector('.card');
 
 // @todo: Функция создания карточки
 
-function createCard(cardData, deleteCard) {
+function createCard(cardData, deleteCard, openImagePopup) {
     const card = cardItem.cloneNode(true);
 
     const cardImage = card.querySelector('.card__image');
@@ -23,7 +20,7 @@ function createCard(cardData, deleteCard) {
     });
     
     cardImage.addEventListener('click', function() {
-        openImagePopup(popupImage, cardData)
+        openImagePopup(cardData)
     });
 
     likeCard.addEventListener('click', function() {
@@ -43,5 +40,5 @@ function deleteCard(card) {
     card.remove();
 } 
 
-export {createCard, deleteCard, toggleLike, popupImage}
+export {createCard, deleteCard}
   
