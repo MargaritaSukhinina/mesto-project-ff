@@ -28,7 +28,7 @@ function closePopup(element) {
     element.classList.toggle('popup_is-opened');
 
     document.removeEventListener('keydown', closeByKey);
-    element.removeEventListener('click', closeByOvelayClick)
+    e.removeEventListener('click', closeByOvelayClick)
 }
 
 export {openPopup, closePopup}
