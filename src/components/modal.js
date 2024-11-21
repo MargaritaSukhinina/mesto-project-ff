@@ -21,6 +21,7 @@ function openPopup(element) {
     element.addEventListener('click',         
         closeByOvelayClick
     )
+    
 }
 
 //Закрытие модального окна
@@ -28,7 +29,7 @@ function closePopup(element) {
     element.classList.toggle('popup_is-opened');
 
     document.removeEventListener('keydown', closeByKey);
-    e.removeEventListener('click', closeByOvelayClick)
+    element.removeEventListener('click', closeByOvelayClick)
 }
 
 export {openPopup, closePopup}
