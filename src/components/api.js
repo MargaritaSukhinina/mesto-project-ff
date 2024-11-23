@@ -7,35 +7,29 @@ const config = {
     }
 }
 
+const handleResponce = (res) => {
+    if (res.ok) {
+        return res.json()
+    }
+    return Promise.reject(res.status);
+}
+
 //загрузка информации о пользователе с сервера
 export const getUsersData = () => {
     return fetch(`${config.baseUrl}/users/me`, {
         headers: config.headers
     })
-        .then((res) => {
-            if (res.ok) {
-                return res.json()
-            }
-        })
-        .catch((err) => {
-            console.log(`Oшибка: ${err}`)
-        })
-
+    .then(handleResponce)
 }
+
 // получение карточек с сервера
 export const getInitialCards = () => {
     return fetch(`${config.baseUrl}/cards`, {
         headers: config.headers
     })
-        .then((res) => {
-            if (res.ok) {
-                return res.json()
-            }
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err}`)
-        })
+    .then(handleResponce)
 }
+
 // редактирование информации о пользователе
 export const editUserData = (name, job) => {
     return fetch(`${config.baseUrl}/users/me`, {
@@ -46,38 +40,23 @@ export const editUserData = (name, job) => {
             about: job
         })
     })
-    .then((res) => {
-        if(res.ok) {
-          return res.json() 
-        }
-    })
-    .catch((err) => {
-        console.log(`Oшибка: ${err}`)
-    })
+    .then(handleResponce)
 }
 
 // аватар пользователя
-export const editUserAvatar = () => {
+export const editUserAvatar = (myAvatar) => {
     return fetch(`${config.baseUrl}/users/me/avatar`, {
         method: 'PATCH',
         headers: config.headers,
         body: JSON.stringify({
-            avatar: 'https://sun9-65.userapi.com/impg/PhkyEvWIrAWjPsXcVsnJlhKnXE57gpq3YZScUw/sviewac9vJU.jpg?size=928x1217&quality=95&sign=f93759a54de4018d6d55c398f2cef068&type=album'
+            avatar: myAvatar
         })
     })
-    .then((res) => {
-        if(res.ok) {
-          return res.json() 
-        }
-    })
-    .catch((err) => {
-        console.log(`Ошибка: ${err}`)
-    })
+    .then(handleResponce)
 }
 
 // добавление новой карточки
-export const addCardToPage = (renderCard) => {
-    
+export const addCardToPage = (renderCard) => { 
     return fetch(`${config.baseUrl}/cards`, {
         method: 'POST',
         headers: config.headers,
@@ -86,19 +65,11 @@ export const addCardToPage = (renderCard) => {
             link: renderCard.link
         })
     })
-    .then((res) => {
-        if(res.ok) {
-           return res.json() 
-        }
-    })
-    .catch((err) => {
-        console.log(`Oшибка: ${err}`)
-    })
-
+    .then(handleResponce)
 }
+
 //удаление карточки
 export const deleteUserCard = (cardId) => {
-
     return fetch(`${config.baseUrl}/cards/${cardId}`, {
         method: 'DELETE',
         headers: config.headers,
@@ -106,14 +77,7 @@ export const deleteUserCard = (cardId) => {
             _id: cardId
         })
     })
-    .then((res) => {
-        if (res.ok) {
-            return res.json()
-        }
-    })
-    .catch((err) => {
-        console.log(`Oшибка: ${err}`)
-    })
+    .then(handleResponce)
 }
 
 // постановка и удаление лайка
@@ -125,14 +89,7 @@ export const getLikeCard = (cardId) => {
             _id: cardId
         })
     })
-    .then((res) => {
-        if(res.ok) {
-           return res.json() 
-        }
-    })
-    .catch((err) => {
-        console.log(`Oшибка: ${err}`)
-    })
+    .then(handleResponce)
 }
 
 export const deleteLikeCard = (cardId) => {
@@ -143,12 +100,5 @@ export const deleteLikeCard = (cardId) => {
             _id: cardId
         })
     })
-    .then((res) => {
-        if(res.ok) {
-           return res.json() 
-        }
-    })
-    .catch((err) => {
-        console.log(`Oшибка: ${err}`)
-    })
+    .then(handleResponce)
 }
