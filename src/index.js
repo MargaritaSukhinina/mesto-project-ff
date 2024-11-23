@@ -36,7 +36,6 @@ const formAvatar = popupAvatar.querySelector('.popup__form');
 
 //  получение данных с сервера
 let myId = null;
-let cardId = null;
 let name = null;
 let job = null;
 
@@ -54,8 +53,7 @@ Promise.all(promises)
         jobInputOutput.textContent = userData.about;
         avataiImage.style.backgroundImage = `url('${userData.avatar}')`
         cardsArray.forEach(function(cardData) {
-            cardId = cardData._id;
-            const cardUsers = createCard(cardData, myId, cardId, getLike, deleteLike, deleteCard, openImagePopup, getLikeCard, deleteLikeCard, changeLikeStatus, numberLike);
+            const cardUsers = createCard(cardData, myId, getLike, deleteLike, deleteCard, openImagePopup, getLikeCard, deleteLikeCard, changeLikeStatus, numberLike);
             cardList.append(cardUsers);
         })
     })
@@ -76,6 +74,8 @@ function submitEditProfileFormt(evt) {
             .then(() => {
                 nameInputOutput.textContent = nameInput.value;
                 jobInputOutput.textContent = jobInput.value;
+                name = nameInputOutput.textContent;
+                job = jobInputOutput.textContent;
                 clearValidation(popupEdit, settings)
                 closePopup(popupEdit)
             })
@@ -133,7 +133,7 @@ function handleFormSubmitCard(event) {
     const renderCard = {name: textInput.value, link: linkInput.value};
     addCardToPage(renderCard)
     .then((newCardData) => {
-        const newCard = createCard(newCardData, myId, cardId, getLike, deleteLike, deleteCard, openImagePopup, getLikeCard, deleteLikeCard, changeLikeStatus, numberLike)
+        const newCard = createCard(newCardData, myId, getLike, deleteLike, deleteCard, openImagePopup, getLikeCard, deleteLikeCard, changeLikeStatus, numberLike)
         cardList.prepend(newCard)
         formNewCard.reset()
         closePopup(popupAdd)

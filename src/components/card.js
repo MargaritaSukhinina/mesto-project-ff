@@ -6,7 +6,7 @@ const cardItem = cardTemplate.querySelector('.card');
 
 // @todo: Функция создания карточки
 
-export const createCard = (cardData, myId, cardId, getLike, deleteLike, deleteCard, openImagePopup, getLikeCard, deleteLikeCard, changeLikeStatus, numberLike) => {
+export const createCard = (cardData, myId, getLike, deleteLike, deleteCard, openImagePopup, getLikeCard, deleteLikeCard, changeLikeStatus, numberLike) => {
     const card = cardItem.cloneNode(true);
     const cardImage = card.querySelector('.card__image');
     const cardDeleteButton = card.querySelector('.card__delete-button');
@@ -16,7 +16,7 @@ export const createCard = (cardData, myId, cardId, getLike, deleteLike, deleteCa
     cardImage.src = cardData.link;
     cardImage.alt = cardData.name;
     card.querySelector('.card__title').textContent = cardData.name;
-    card.dataset.cardId = cardId;
+    card.dataset.cardId = cardData._id;
 
     const userId = cardData.owner._id;
     const like = cardData.likes
@@ -26,7 +26,7 @@ export const createCard = (cardData, myId, cardId, getLike, deleteLike, deleteCa
     }
      
     cardDeleteButton.addEventListener('click', function() { 
-        deleteCard(card, cardId)
+        deleteCard(card, cardData._id)
     });
 
     cardImage.addEventListener('click', function() {
@@ -42,7 +42,7 @@ export const createCard = (cardData, myId, cardId, getLike, deleteLike, deleteCa
     }
 
     likeCard.addEventListener('click', function() {
-        changeLikeStatus(cardId, getLikeCard, deleteLikeCard, getLike, deleteLike, likeCard, cardLikeCounter)
+        changeLikeStatus(cardData._id, getLikeCard, deleteLikeCard, getLike, deleteLike, likeCard, cardLikeCounter)
     });
 
     return card
